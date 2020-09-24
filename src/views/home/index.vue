@@ -187,7 +187,7 @@ export default {
         const list = [
           {
             name: '这是标题',
-            value: '这是值'
+            value: '这是值(请输入数字)'
           }
         ]
         const data = this.formatJson(filterVal, list)
@@ -224,12 +224,18 @@ export default {
             return Object.keys(i)[0] === 'name' && Object.keys(i)[1] === 'value'
           })
           if (everyFlag) {
-            ws.map((i) => {
-              if (i.name && i.value) {
-                that.excelData.push({
-                  name: i.name,
-                  value: i.value
-                })
+            ws.map((i, index) => {
+              if (!isNaN(Number(i.value))) {
+                if (i.name && i.value) {
+                  that.excelData.push({
+                    name: i.name,
+                    value: i.value
+                  })
+                }
+              } else {
+                setTimeout(() => {
+                  this.$message.error(`第${index + 1}行值应该为数字，已自动过滤！`)
+                }, (index + 1) * 500)
               }
             })
             this.fileName = files[0].name
@@ -257,7 +263,7 @@ export default {
         toolbox: {
           feature: {
             saveAsImage: {
-              name: '词云图',
+              name: this.fileName.substring(0, this.fileName.lastIndexOf('.')),
               backgroundColor: '#fff',
               connectedBackgroundColor: '#fff'
             }
