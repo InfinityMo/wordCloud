@@ -9,6 +9,11 @@ const routes = [
     component: () => import('@/views/home/index.vue')
   },
   {
+    path: '/line',
+    name: 'Line',
+    component: () => import('@/views/line/index.vue')
+  },
+  {
     path: '*',
     name: 'Forbidden',
     component: () => import('@/views/404/index.vue')
